@@ -1,3 +1,32 @@
+# Aplikasi Sekolah - Frontend
+
+Selamat datang di repositori **Frontend Aplikasi Sekolah**! 🎓
+
+Aplikasi ini dirancang untuk memudahkan pengelolaan data sekolah secara online, dengan antarmuka yang ramah pengguna. Di dalamnya terdapat fitur untuk manajemen data guru, siswa, dan kelas yang dapat diakses oleh admin dan guru. 
+
+## Fitur Utama
+
+- **Halaman Admin**: Menyediakan kontrol penuh atas data sekolah, termasuk manajemen guru, siswa, dan kelas.
+- **Halaman Guru**: Digunakan oleh guru untuk mengelola dan memantau data yang berkaitan dengan kelas yang diajarnya.
+- **Desain Responsif**: Tampilan yang dioptimalkan untuk berbagai perangkat, baik desktop maupun mobile.
+
+## Login
+
+Untuk mengakses aplikasi, gunakan kredensial berikut:
+
+### 1. Login sebagai Admin:
+- **Username**: `admin`
+- **Password**: `admin`
+
+### 2. Login sebagai Guru:
+- **Username**: `2001`
+- **Password**: `pass2001`
+
+## Teknologi yang Digunakan
+
+- **HTML5** & **CSS3** - Untuk struktur dan desain halaman.
+- **JavaScript** - Untuk interaktivitas dan dinamika aplikasi.
+- **React** (atau framework lainnya jika digunakan) - Untuk membangun antarmuka yang modern dan responsif.
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
