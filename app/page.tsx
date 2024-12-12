@@ -1,101 +1,154 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { toast } from "@/hooks/use-toast"
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+const TEMP_ADMIN = {
+  username: 'admin',
+  password: 'admin'
 }
+
+const TEMP_GURU = [
+  { nip: '2001', password: 'pass2001', nama: 'Agus Setiawan' },
+  { nip: '2002', password: 'pass2002', nama: 'Budi Hartono' },
+  { nip: '2003', password: 'pass2003', nama: 'Citra Lestari' },
+  { nip: '2004', password: 'pass2004', nama: 'Dewi Safitri' },
+  { nip: '2005', password: 'pass2005', nama: 'Eko Prasetyo' },
+  { nip: '2006', password: 'pass2006', nama: 'Fitriani' },
+  { nip: '2007', password: 'pass2007', nama: 'Gunawan' },
+  { nip: '2008', password: 'pass2008', nama: 'Hesti Wulandari' },
+];
+
+export default function Login() {
+  const [guruNIP, setGuruNIP] = useState('')
+  const [guruPassword, setGuruPassword] = useState('')
+  const [adminUsername, setAdminUsername] = useState('')
+  const [adminPassword, setAdminPassword] = useState('')
+  const router = useRouter()
+
+  useEffect(() => {
+    const storedAdminUsername = localStorage.getItem('adminUsername')
+    const storedGuruNIP = localStorage.getItem('guruNIP')
+    if (storedAdminUsername) {
+      router.push('/admin')
+    } else if (storedGuruNIP) {
+      router.push('/guru')
+    }
+  }, [router])
+
+  const handleGuruLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const guru = TEMP_GURU.find(g => g.nip === guruNIP && g.password === guruPassword)
+    if (guru) {
+      localStorage.setItem('guruNIP', guru.nip)
+      localStorage.setItem('guruNama', guru.nama)
+      router.push('/guru')
+    } else {
+      toast({
+        title: "Login Gagal",
+        description: "NIP atau password guru tidak valid.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  const handleAdminLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (adminUsername === TEMP_ADMIN.username && adminPassword === TEMP_ADMIN.password) {
+      localStorage.setItem('adminUsername', adminUsername)
+      router.push('/admin')
+    } else {
+      toast({
+        title: "Login Gagal",
+        description: "Username atau password admin tidak valid.",
+        variant: "destructive",
+      })
+    }
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-100 to-white p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-center">Login Aplikasi</CardTitle>
+          <CardDescription className="text-center">
+            Masuk sebagai guru atau admin
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Tabs defaultValue="guru" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="guru">Guru</TabsTrigger>
+              <TabsTrigger value="admin">Admin</TabsTrigger>
+            </TabsList>
+            <TabsContent value="guru">
+              <form onSubmit={handleGuruLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="guruNIP">NIP</Label>
+                  <Input
+                    id="guruNIP"
+                    type="text"
+                    placeholder="Masukkan NIP"
+                    value={guruNIP}
+                    onChange={(e) => setGuruNIP(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="guruPassword">Password</Label>
+                  <Input
+                    id="guruPassword"
+                    type="password"
+                    placeholder="Masukkan password"
+                    value={guruPassword}
+                    onChange={(e) => setGuruPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <Button className="w-full" type="submit">
+                  Login sebagai Guru
+                </Button>
+              </form>
+            </TabsContent>
+            <TabsContent value="admin">
+              <form onSubmit={handleAdminLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="adminUsername">Username</Label>
+                  <Input
+                    id="adminUsername"
+                    type="text"
+                    placeholder="Masukkan username"
+                    value={adminUsername}
+                    onChange={(e) => setAdminUsername(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="adminPassword">Password</Label>
+                  <Input
+                    id="adminPassword"
+                    type="password"
+                    placeholder="Masukkan password"
+                    value={adminPassword}
+                    onChange={(e) => setAdminPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <Button className="w-full" type="submit">
+                  Login sebagai Admin
+                </Button>
+              </form>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}
+
