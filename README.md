@@ -34,4 +34,4 @@ Aplikasi ini dibangun dengan menggunakan teknologi terbaru, seperti:
 
 Coba aplikasi ini secara langsung melalui link berikut:
 
-[**Aplikasi Sekolah Demo**][https://sekolah-beta.vercel.app/)
+[**Demo WebAPP Sekolah**](https://sekolah.athuridha.my.id/).
