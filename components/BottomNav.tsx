@@ -7,11 +7,11 @@ export function BottomNav({ onLogout }: { onLogout: () => void }) {
       <div className="flex justify-around items-center">
         <Link href="/guru" className="flex flex-col items-center text-gray-600 hover:text-blue-500">
           <Home size={24} />
-          <span className="text-xs mt-1">Beranda</span>
+          <span className="text-xs mt-1"></span>
         </Link>
         <Link href="/guru/jadwal" className="flex flex-col items-center text-gray-600 hover:text-blue-500">
           <Calendar size={24} />
-          <span className="text-xs mt-1">Jadwal</span>
+          <span className="text-xs mt-1"></span>
         </Link>
         <Link href="/guru/absensi" className="flex flex-col items-center justify-center">
           <div className="bg-blue-500 rounded-full p-3 -mt-8">
@@ -20,11 +20,11 @@ export function BottomNav({ onLogout }: { onLogout: () => void }) {
         </Link>
         <Link href="/guru/penilaian-absensi" className="flex flex-col items-center text-gray-600 hover:text-blue-500">
           <ClipboardList size={24} />
-          <span className="text-xs mt-1">Penilaian & Absensi</span>
+          <span className="text-xs mt-1"></span>
         </Link>
         <button onClick={onLogout} className="flex flex-col items-center text-gray-600 hover:text-blue-500">
           <LogOut size={24} />
-          <span className="text-xs mt-1">Keluar</span>
+          <span className="text-xs mt-1"></span>
         </button>
       </div>
     </nav>
